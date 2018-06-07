@@ -15,8 +15,13 @@ RUN set -ex; \
 RUN set -ex; \
     apk add mono --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
 
-# GitVersion
+# Sentry CLI
+RUN set -ex; \
+    apk add --no-cache curl; \
+    curl -sL https://sentry.io/get-cli/ | bash; \
+    apk del curl
 
+# GitVersion
 WORKDIR /opt
 
 RUN set -ex; \
