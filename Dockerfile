@@ -1,6 +1,6 @@
 FROM docker:stable-git
 
-ENV GITVERSION="v4.0.0-beta.13"
+ENV GITVERSION="v4.0.0-beta.14"
 
 # bash
 RUN apk --no-cache add bash
