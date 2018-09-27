@@ -1,6 +1,7 @@
 FROM docker:stable-git
 
 ENV GITVERSION="v4.0.0-beta.14"
+ENV GITVERSION_FILE_NAME="GitVersion_4.0.0-beta0014"
 
 # bash
 RUN apk --no-cache add bash
@@ -28,18 +29,18 @@ RUN set -ex; \
     apk add --no-cache curl jq; \
     curl -L $( \
       curl -s https://api.github.com/repos/GitTools/GitVersion/releases/tags/${GITVERSION} | \
-      jq -r ".assets[] | select(.name | test(\".zip\")) | .browser_download_url" \
-    ) -o latest.zip; \
+      jq -r ".assets[] | select(.name | test(\"${GITVERSION_FILE_NAME}.zip\")) | .browser_download_url" \
+    ) -o latest.zip  > /dev/null; \
     mkdir ./GitVersion; \
-    unzip latest.zip -d ./GitVersion; \
+    unzip latest.zip -d ./GitVersion > /dev/null; \
     rm latest.zip; \
     rm -Rf GitVersion/lib/win32 GitVersion/lib/osx; \
-    rm GitVersion/lib/linux/x86_64/libgit2-baa87df.so; \
+    rm GitVersion/lib/linux/x86_64/libgit2-15e1193.so; \
     apk del curl jq
 
 # Prepare GitVersion for execution on alpine
 ADD gitversion /opt/GitVersion
 RUN set -ex; \
     apk add --no-cache libssl1.0 libgit2; \
-    ln -s /usr/lib/libgit2.so.25 GitVersion/lib/linux/x86_64/libgit2-baa87df.so; \
+    ln -s /usr/lib/libgit2.so.0.27.3 GitVersion/lib/linux/x86_64/libgit2-15e1193.so; \
     ln -s /opt/GitVersion/gitversion /usr/bin/gitversion
