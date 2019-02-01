@@ -1,7 +1,7 @@
 FROM docker:stable-git
 
-ENV GITVERSION="v4.0.0-beta.14"
-ENV GITVERSION_FILE_NAME="GitVersion_4.0.0-beta0014"
+ENV GITVERSION="v4.0.0"
+ENV GITVERSION_FILE_NAME="GitVersion_4.0.0"
 
 # bash
 RUN apk --no-cache add bash
