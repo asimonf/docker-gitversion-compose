@@ -1,7 +1,7 @@
 FROM docker:stable-git
 
 ENV GITVERSION="v4.0.0"
-ENV GITVERSION_FILE_NAME="GitVersion_4.0.0"
+ENV GITVERSION_FILE_NAME="GitVersion-bin-net40-v4.0.0"
 
 # bash
 RUN apk --no-cache add bash
@@ -14,6 +14,9 @@ RUN set -ex; \
 
 # mono
 RUN set -ex; \
+    sed -i -e 's/v[[:digit:]]\.[[:digit:]]/edge/g' /etc/apk/repositories; \
+	apk upgrade --update-cache --available; \
+	sync; \
     apk add mono --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
 
 # Sentry CLI
@@ -41,6 +44,6 @@ RUN set -ex; \
 # Prepare GitVersion for execution on alpine
 ADD gitversion /opt/GitVersion
 RUN set -ex; \
-    apk add --no-cache libssl1.0 libgit2; \
-    ln -s /usr/lib/libgit2.so.0.27.3 GitVersion/lib/linux/x86_64/libgit2-15e1193.so; \
+    apk add --no-cache libgit2; \
+    ln -s /usr/lib/libgit2.so.0.27.7 GitVersion/lib/linux/x86_64/libgit2-15e1193.so; \
     ln -s /opt/GitVersion/gitversion /usr/bin/gitversion
