@@ -8,7 +8,7 @@ RUN apk --no-cache add bash
 
 # docker-compose
 RUN set -ex; \
-    apk add --no-cache py-pip; \
+    apk add --no-cache py-pip gomplate; \
     pip install docker-compose; \
     apk del py-pip
 
@@ -24,6 +24,10 @@ RUN set -ex; \
     apk add --no-cache curl; \
     curl -sL https://sentry.io/get-cli/ | bash; \
     apk del curl
+    
+# Gomplate for templating
+RUN set -ex; \
+    apk add --no-cache gomplate
 
 # GitVersion
 WORKDIR /opt
