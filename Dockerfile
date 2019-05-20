@@ -45,5 +45,5 @@ RUN set -ex; \
 ADD gitversion /opt/GitVersion
 RUN set -ex; \
     apk add --no-cache libgit2; \
-    ln -s /usr/lib/libgit2.so.0.27.7 GitVersion/lib/linux/x86_64/libgit2-15e1193.so; \
+    ln -s /usr/lib/libgit2.so.28 GitVersion/lib/linux/x86_64/libgit2-15e1193.so; \
     ln -s /opt/GitVersion/gitversion /usr/bin/gitversion
