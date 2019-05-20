@@ -3,14 +3,14 @@ FROM docker:stable-git
 ENV GITVERSION="v4.0.0"
 ENV GITVERSION_FILE_NAME="GitVersion-bin-net40-v4.0.0"
 
-# bash
-RUN apk --no-cache add bash
+# bash and gotemplate
+RUN apk --no-cache add bash gomplate
 
 # docker-compose
 RUN set -ex; \
-    apk add --no-cache py-pip gomplate; \
+    apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make; \
     pip install docker-compose; \
-    apk del py-pip
+    apk del py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
 
 # mono
 RUN set -ex; \
@@ -24,10 +24,6 @@ RUN set -ex; \
     apk add --no-cache curl; \
     curl -sL https://sentry.io/get-cli/ | bash; \
     apk del curl
-    
-# Gomplate for templating
-RUN set -ex; \
-    apk add --no-cache gomplate
 
 # GitVersion
 WORKDIR /opt
