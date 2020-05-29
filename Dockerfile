@@ -1,4 +1,4 @@
-FROM docker:stable-git
+FROM frolvlad/alpine-mono
 
 ENV GITVERSION="v4.0.0"
 ENV GITVERSION_FILE_NAME="GitVersion-bin-net40-v4.0.0"
@@ -11,13 +11,6 @@ RUN set -ex; \
     apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make; \
     pip install docker-compose; \
     apk del py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
-
-# mono
-RUN set -ex; \
-    sed -i -e 's/v[[:digit:]]\.[[:digit:]]/edge/g' /etc/apk/repositories; \
-	apk upgrade --update-cache --available; \
-	sync; \
-    apk add mono --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
 
 # Sentry CLI
 RUN set -ex; \
