@@ -1,7 +1,13 @@
-FROM frolvlad/alpine-mono
+FROM docker:stable-git
 
 ENV GITVERSION="v4.0.0"
 ENV GITVERSION_FILE_NAME="GitVersion-bin-net40-v4.0.0"
+
+# mono
+RUN apk add --no-cache mono --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+    apk add --no-cache --virtual=.build-dependencies ca-certificates && \
+    cert-sync /etc/ssl/certs/ca-certificates.crt && \
+    apk del .build-dependencies
 
 # bash and gotemplate
 RUN apk --no-cache add bash gomplate
@@ -11,6 +17,7 @@ RUN set -ex; \
     apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make; \
     pip install docker-compose; \
     apk del py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
+
 
 # Sentry CLI
 RUN set -ex; \
